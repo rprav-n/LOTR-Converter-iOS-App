@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ExchangeInfo: View {
+    @Environment(\.dismiss) var dismiss
+    
     var body: some View {
         ZStack {
             Image(.parchment)
@@ -30,7 +32,7 @@ struct ExchangeInfo: View {
                 ExchangeRate(leftImageResource: .silverpenny, text: "1 Silver Pennies = 100 Copper Pennies", rightImageResouce: .copperpenny)
                 
                 Button(action: {
-                    
+                    dismiss()
                 }, label: {
                     Text("Done")
                 })
