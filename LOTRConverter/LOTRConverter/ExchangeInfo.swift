@@ -24,17 +24,11 @@ struct ExchangeInfo: View {
                     .font(.title2)
                     .padding()
                 
-                HStack {
-                    Image(.goldpiece)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 33)
-                    Text("1 Gold Piece = 4 Gold Pennies")
-                    Image(.goldpenny)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 33)
-                }
+                ExchangeRate(leftImageResource: .goldpiece, text: "1 Gold Piece = 4 Gold Pennies", rightImageResouce: .goldpenny)
+                ExchangeRate(leftImageResource: .goldpenny, text: "1 Gold Penny = 4 Silver Piece", rightImageResouce: .silverpiece)
+                ExchangeRate(leftImageResource: .silverpiece, text: "1 Silver Piece = 4 Silver Pennies", rightImageResouce: .silverpenny)
+                ExchangeRate(leftImageResource: .silverpenny, text: "1 Silver Pennies = 100 Copper Pennies", rightImageResouce: .copperpenny)
+                
                 Button(action: {
                     
                 }, label: {
@@ -54,3 +48,4 @@ struct ExchangeInfo: View {
 #Preview {
     ExchangeInfo()
 }
+
