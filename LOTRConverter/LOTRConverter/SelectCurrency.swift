@@ -10,7 +10,8 @@ import SwiftUI
 struct SelectCurrency: View {
     @Environment(\.dismiss) var dismiss
     
-    @State var leftCurrency = Currency.silverPiece
+    @Binding var topCurrency: Currency
+    @Binding var bottomCurrency: Currency
     
     var body: some View {
         ZStack {
@@ -27,24 +28,7 @@ struct SelectCurrency: View {
                     .multilineTextAlignment(.center)
                 
                 // Currency Icons
-                LazyVGrid(columns: [GridItem(), GridItem(), GridItem()], content: {
-                    ForEach(Currency.allCases) { currency in
-                        if leftCurrency.id == currency.id {
-                            CurrencyIcon(currencyImageResource: currency.image, currencyName: currency.name)
-                                .shadow(color: .black, radius: 10)
-                                .overlay {
-                                    RoundedRectangle(cornerRadius: 25.0)
-                                        .stroke(lineWidth: 2.0)
-                                        .opacity(0.5)
-                                }
-                        } else {
-                            CurrencyIcon(currencyImageResource: currency.image, currencyName: currency.name)
-                                .onTapGesture {
-                                    leftCurrency = currency
-                                }
-                        }
-                    }
-                })
+                IconGrid(currency: $topCurrency)
                 
                 
                 // Text
@@ -53,11 +37,11 @@ struct SelectCurrency: View {
                     .multilineTextAlignment(.center)
                 
                 // Currency Icons
-                
+                IconGrid(currency: $bottomCurrency)
                 
                 // Done Button
                 Button(action: {
-                    
+                    dismiss()
                 }, label: {
                     Text("Done")
                 })
@@ -73,5 +57,5 @@ struct SelectCurrency: View {
 }
 
 #Preview {
-    SelectCurrency()
+    SelectCurrency(topCurrency: .constant(.copperPenny), bottomCurrency: .constant(.copperPenny))
 }
