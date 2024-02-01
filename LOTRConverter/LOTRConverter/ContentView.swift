@@ -10,11 +10,16 @@ import SwiftUI
 struct ContentView: View {
     
     @State var showExchangeInfo = false
+    
     @State var leftAmount = ""
     @State var rightAmount = ""
     
+    @FocusState var leftTyping
+    @FocusState var rightTyping
+    
     @State var leftCurrency: Currency = .silverPiece
     @State var rightCurrency: Currency = .goldPiece
+    
     @State var showSelectCurrency = false
     
     var body: some View {
@@ -61,6 +66,14 @@ struct ContentView: View {
                         // Textfield
                         TextField("Amount", text: $leftAmount)
                             .textFieldStyle(.roundedBorder)
+                            .onChange(of: leftAmount) {
+                                if leftTyping {
+                                    rightAmount = leftCurrency.convert(leftAmount, to: rightCurrency)
+                                }
+                            }
+                            .focused($leftTyping)
+                            
+                            
                     }
                     
                     // Equal sign
@@ -92,6 +105,12 @@ struct ContentView: View {
                         TextField("Amount", text: $rightAmount)
                             .textFieldStyle(.roundedBorder)
                             .multilineTextAlignment(.trailing)
+                            .onChange(of: rightAmount) {
+                                if rightTyping {
+                                    leftAmount = rightCurrency.convert(rightAmount, to: leftCurrency)
+                                }
+                            }
+                            .focused($rightTyping)
                     }
                     
                 }
