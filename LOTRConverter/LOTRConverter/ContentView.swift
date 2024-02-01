@@ -66,14 +66,8 @@ struct ContentView: View {
                         // Textfield
                         TextField("Amount", text: $leftAmount)
                             .textFieldStyle(.roundedBorder)
-                            .onChange(of: leftAmount) {
-                                if leftTyping {
-                                    rightAmount = leftCurrency.convert(leftAmount, to: rightCurrency)
-                                }
-                            }
                             .focused($leftTyping)
-                            
-                            
+                            .keyboardType(.decimalPad)
                     }
                     
                     // Equal sign
@@ -105,12 +99,8 @@ struct ContentView: View {
                         TextField("Amount", text: $rightAmount)
                             .textFieldStyle(.roundedBorder)
                             .multilineTextAlignment(.trailing)
-                            .onChange(of: rightAmount) {
-                                if rightTyping {
-                                    leftAmount = rightCurrency.convert(rightAmount, to: leftCurrency)
-                                }
-                            }
                             .focused($rightTyping)
+                            .keyboardType(.decimalPad)
                     }
                     
                 }
@@ -134,6 +124,22 @@ struct ContentView: View {
                     .padding(.trailing)
                 }
             }
+        }
+        .onChange(of: leftAmount) {
+            if leftTyping {
+                rightAmount = leftCurrency.convert(leftAmount, to: rightCurrency)
+            }
+        }
+        .onChange(of: rightAmount) {
+            if rightTyping {
+                leftAmount = rightCurrency.convert(rightAmount, to: leftCurrency)
+            }
+        }
+        .onChange(of: leftCurrency) {
+            leftAmount = rightCurrency.convert(rightAmount, to: leftCurrency)
+        }
+        .onChange(of: rightCurrency) {
+            rightAmount = leftCurrency.convert(leftAmount, to: rightCurrency)
         }
         .sheet(isPresented: $showSelectCurrency, content: {
             SelectCurrency(topCurrency: $leftCurrency, bottomCurrency: $rightCurrency)
