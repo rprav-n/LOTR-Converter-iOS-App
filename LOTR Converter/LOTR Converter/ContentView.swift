@@ -99,6 +99,9 @@ struct ContentView: View {
                 }
             }
         }
+        .sheet(isPresented: $showExchangeInfo, content: {
+            ExchangeInfo()
+        })
     }
 }
 
